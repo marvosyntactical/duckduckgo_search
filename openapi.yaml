@@ -1,0 +1,59 @@
+openapi: 3.0.1
+info:
+  title: DuckDuckGoChat Plugin
+  description: Plugin to let ChatGPT Search using DuckDuckGo.
+  version: 'v1'
+servers:
+  - url: https://github.com/marvosyntactical/ddgs
+paths:
+  /search/:
+    get:
+      operationId: search
+      summary: Search the internet.
+      parameters:
+      - in: path
+        name: keywords
+        schema:
+            type: string
+        required: true
+        description: Search the internet.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTodosResponse'
+        schema:
+            type: string
+        required: true
+        description: The name of the user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/searchRequest'
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    searchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: dict
+            items:
+              type: str
+          description: The search results. Contains the entries 'title', 'href' and 'body'.
+    searchRequest:
+      type: object
+      required:
+      - keywords
+      properties:
+        keywords:
+          type: string
+          description: The search query
